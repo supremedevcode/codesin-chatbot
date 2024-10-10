@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webhooks with flask</title>
+  <style>
+    table {
+      width: 80%;
+      border-collapse: collapse;
+      margin: 20px auto;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h2>Hello World from Flask html</h2>
+  <table>
+    <tr>
+      <th>Date time</th>
+      <th>Message</th>
+    </tr>
+    {%for row in rows%}
+      <tr>
+        <td> {{row.date_time}} </td>
+        <td> {{row.text}} </td>
+      </tr>
+    {%endfor%}
+  </table>
+</body>
+</html>
