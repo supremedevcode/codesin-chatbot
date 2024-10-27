@@ -1,7 +1,9 @@
+import logging
 from flask import Flask, jsonify, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import timezone, datetime as dt
 
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
@@ -45,6 +47,7 @@ TOKEN_SUPREMEDEVCODE = "SUPREMEDEVCODE"
 
 @app.route("/webhook", methods=["GET","POST"])
 def webhook():
+  logger.info("incoming request from customer.")
   if request.method == 'GET':
     challenge = token_verification(request)
     return challenge
@@ -53,14 +56,16 @@ def webhook():
     return response
   
 def token_verification(req):
-  token=req.args.get('hub.verify_token')
+  logger.info("verifying the token.")
+  token = req.args.get('hub.verify_token')
   challenge = req.args.get('hub.challenge')
   if challenge and token == TOKEN_SUPREMEDEVCODE:
-    return jsonify(challenge)
+    return challenge
   else:
     return jsonify({'error':'Invalid token'}), 401
 
 def receive_messages(req):
+  logger.info("receiving the messages.")
   req = req.get_json()
   add_messages_log(req)
   return jsonify({'message': 'EVENT_RECEIVED'})
