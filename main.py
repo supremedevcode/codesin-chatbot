@@ -1,3 +1,4 @@
+import json
 import logging
 from flask import Flask, jsonify, render_template, request
 from flask_sqlalchemy import SQLAlchemy
@@ -66,8 +67,9 @@ def token_verification(req):
 
 def receive_messages(req):
   logger.info("receiving the messages.")
-  req = request.get_json()
-  add_messages_log(req)
+  req_data = req.get_json()
+  req_json = json.dumps(req_data)
+  add_messages_log(req_json)
   return jsonify({'message': 'EVENT_RECEIVED'})
 
 if __name__=='__main__':
