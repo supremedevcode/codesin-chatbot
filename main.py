@@ -75,18 +75,19 @@ def receive_messages(req):
     entry = req_data["entry"][0]
     changes = entry["changes"][0]
     value = changes["value"]
-    object_message = value["messages"]
-    if object_message:
-      message = object_message[0]
-      if "type" in message:
-        type_ = message["type"]
-        if type_ == "interactive":
-          return 0
-        if "text" in message:
-          text = message["text"]["body"]
-          number = message["from"]
-          add_messages_log(json.dumps(text))
-          add_messages_log(json.dumps(number))
+    if "messages" in value:
+      object_message = value["messages"]
+      if object_message:
+        message = object_message[0]
+        if "type" in message:
+          type_ = message["type"]
+          if type_ == "interactive":
+            return 0
+          if "text" in message:
+            text = message["text"]["body"]
+            number = message["from"]
+            add_messages_log(json.dumps(text))
+            add_messages_log(json.dumps(number))
           
     return jsonify({'message': 'EVENT_RECEIVED'})
   except Exception as e:
