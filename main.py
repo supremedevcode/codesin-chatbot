@@ -70,7 +70,28 @@ def receive_messages(req):
   req_data = req.get_json()
   req_json = json.dumps(req_data)
   add_messages_log(req_json)
-  return jsonify({'message': 'EVENT_RECEIVED'})
+  try:
+    req_data = req.get_json()
+    entry = req_data["entry"][0]
+    changes = entry["changes"][0]
+    value = changes["value"]
+    object_message = value["messages"]
+    if object_message:
+      message = object_message[0]
+      if "type" in message:
+        type_ = message["type"]
+        if type_ == "interactive":
+          return 0
+        if "text" in message:
+          text = message["text"]["body"]
+          number = message["from"]
+          add_messages_log(json.dumps(text))
+          add_messages_log(json.dumps(number))
+          
+    return jsonify({'message': 'EVENT_RECEIVED'})
+  except Exception as e:
+    logger.exception("Error receiving messages: ", e)
+    return jsonify({'message': 'EVENT_RECEIVED'})
 
 if __name__=='__main__':
   app.run(host='0.0.0.0', port=80, debug=True)
