@@ -88,9 +88,10 @@ def receive_messages(req):
           if "text" in message:
             text = message["text"]["body"]
             number = message["from"]
+            send_messages_whatsapp(text_msg=text, phone_number=number)
             add_messages_log(json.dumps(text))
             add_messages_log(json.dumps(number))
-          
+            
     return jsonify({'message': 'EVENT_RECEIVED'})
   except Exception as e:
     logger.exception("Error receiving messages: ", e)
