@@ -1,8 +1,10 @@
 import json
 import logging
+
 from flask import Flask, jsonify, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import timezone, datetime as dt
+import http.client as http_client
 
 logger = logging.getLogger(__name__)
 
@@ -93,6 +95,49 @@ def receive_messages(req):
   except Exception as e:
     logger.exception("Error receiving messages: ", e)
     return jsonify({'message': 'EVENT_RECEIVED'})
+
+def send_messages_whatsapp(text_msg, phone_number):
+  text = text_msg.lower()
+  if "hola" in text:
+    data = {
+      "messaging_product": "whatsapp",
+      "recipient_type": "individual",
+      "to": phone_number,
+      "type": "text",
+      "text": {
+        "preview_url": False,
+        "body": "Hola, ¿Cómo estás? Bienvenido."
+      }
+    }
+  else:
+    data = {
+      "messaging_product": "whatsapp",
+      "recipient_type": "individual",
+      "to": phone_number,
+      "type": "text",
+      "text": {
+        "preview_url": False,
+        "body": "Hola \uD83D, visita mi web codesinconsultoria.com para más información."
+      }
+    }
+
+  data = json.dumps(data)
+  
+  headers = {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer EAAGXou2wA7YBOzjZAJOqFbOGRHRp8O4NggedZBm3ipcskzSyNVhSnGMsDRr5YFnUkDazqZBSHCNo03ZAMSbxdx2lOKtRh2EQiNJl5ZAw2JcXVF1xCZABuCgdHAgHPDGZC8tqpIcUoAX2omqqU8MzEHkVlBZCZAAOlQSFW1MQZCP3orAaYbJmBsI2HZCJtVkjgeOkf1yBn7ZC9AM5ZCRjLfLkbqnlSYZBCHwbpZCt1W4MHwZD"
+  }
+  
+  connection = http_client.HTTPSConnection("graph.facebook.com")
+  
+  try:
+    connection.request("POST", "/v21.0/388973824307193/messages", data, headers)
+    response = connection.getresponse()
+    logger.info(response.status, response.reason)
+  except Exception as e:
+    add_messages_log(json.dumps(e))
+  finally:
+    connection.close()
 
 if __name__=='__main__':
   app.run(host='0.0.0.0', port=80, debug=True)
