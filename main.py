@@ -107,7 +107,7 @@ def send_messages_whatsapp(text_msg, phone_number):
       "type": "text",
       "text": {
         "preview_url": False,
-        "body": "Hola, ¿Cómo estás? Bienvenido."
+        "body": "\uD83D Hola, ¿Cómo estás? Bienvenido."
       }
     }
   else:
@@ -118,7 +118,7 @@ def send_messages_whatsapp(text_msg, phone_number):
       "type": "text",
       "text": {
         "preview_url": False,
-        "body": "Hola \uD83D, visita mi web codesinconsultoria.com para más información."
+        "body": "\uD83D Hola, visita mi web codesinconsultoria.com para más información."
       }
     }
 
@@ -126,7 +126,7 @@ def send_messages_whatsapp(text_msg, phone_number):
   
   headers = {
     "Content-Type": "application/json",
-    "Authorization": "Bearer EAAGXou2wA7YBOzjZAJOqFbOGRHRp8O4NggedZBm3ipcskzSyNVhSnGMsDRr5YFnUkDazqZBSHCNo03ZAMSbxdx2lOKtRh2EQiNJl5ZAw2JcXVF1xCZABuCgdHAgHPDGZC8tqpIcUoAX2omqqU8MzEHkVlBZCZAAOlQSFW1MQZCP3orAaYbJmBsI2HZCJtVkjgeOkf1yBn7ZC9AM5ZCRjLfLkbqnlSYZBCHwbpZCt1W4MHwZD"
+    "Authorization": "Bearer EAAGXou2wA7YBO4zB7fKouVvuaG2030L6tl5b24ZBdOZAhQnHB4X7PO2b5KLokfRo4zgbpYdkGTya69SHjKSsmRoJLorSogoy8rcF7YBSBKSNJSZBZCKbrhhaBIV9TAz5NqZB1mNJyM228awbY2ostxs8sqGR5rPUPfSG8ST10UMVjOIyLRR7CikBegKODsktx0ZBuqdztBc9689EX7k6Vx2NHGPZAtn2liLNb8ZD"
   }
   
   connection = http_client.HTTPSConnection("graph.facebook.com")
